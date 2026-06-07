@@ -1,9 +1,11 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: import.meta.env.CLIENT_URL,
+  baseURL: import.meta.env.VITE_CLIENT_URL,
+  headers: {
+    "Content-Type": "application/json",
+  },
 });
-
 
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
@@ -16,45 +18,3 @@ api.interceptors.request.use((config) => {
 });
 
 export default api;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import axios from "axios";
-
-// const api = axios.create({
-//   baseURL: "http://localhost:8909",
-//   headers: {
-//     "Content-Type": "application/json",
-//   },
-// });
-
-// // Automatically attach JWT token
-// api.interceptors.request.use(
-//   (config) => {
-//     const token = localStorage.getItem("token");
-
-//     if (token) {
-//       config.headers.Authorization = `Bearer ${token}`;
-//     }
-
-//     return config;
-//   },
-//   (error) => Promise.reject(error)
-// );
-
-// export default api;
