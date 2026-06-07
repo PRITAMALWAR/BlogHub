@@ -45,30 +45,39 @@ router.get(
 router.get(
   "/google/callback",
   passport.authenticate("google", {
-    failureRedirect: "http://localhost:5173/login",
+    failureRedirect: `${process.env.CLIENT_URL}/login`,
     session: false,
   }),
   async (req, res) => {
-    const token = jwt.sign(
-      { id: req.user._id },
-      process.env.JWT_SECRET,
-      { expiresIn: "7d" }
-    );
+    try {
+      const token = jwt.sign(
+        { id: req.user._id },
+        process.env.JWT_SECRET,
+        { expiresIn: "7d" }
+      );
 
-    const user = encodeURIComponent(
-      JSON.stringify({
+      const user = {
         id: req.user._id,
         username: req.user.username,
         email: req.user.email,
         picture: req.user.picture,
-      })
-    );
+      };
 
-   res.redirect(
-  `${CLIENT_URL}/google-success?token=${token}&user=${encodeURIComponent(JSON.stringify(user))}`
-);
+      res.redirect(
+        `${process.env.CLIENT_URL}/google-success?token=${token}&user=${encodeURIComponent(
+          JSON.stringify(user)
+        )}`
+      );
+    } catch (error) {
+      console.error("Google Callback Error:", error);
+
+      res.redirect(
+        `${process.env.CLIENT_URL}/login`
+      );
+    }
   }
 );
+
 // Optional
 router.get("/login-failed", (req, res) => {
   res.status(401).json({
