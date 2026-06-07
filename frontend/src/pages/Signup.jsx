@@ -44,7 +44,7 @@ const Signup = () => {
     } catch (err) {
       setError(
         err.response?.data?.message ||
-          "Registration failed"
+        "Registration failed"
       );
     } finally {
       setLoading(false);
@@ -53,8 +53,9 @@ const Signup = () => {
 
   const handleGoogleSignup = () => {
     window.location.href =
-      "http://localhost:8909/auth/google";
+      "https://bloghub-0diu.onrender.com/auth/google";
   };
+
 
   return (
     <div className="flex justify-center items-center min-h-[80vh]">
