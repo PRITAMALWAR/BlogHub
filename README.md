@@ -297,16 +297,5 @@ Redirect Home Page
 
 ---
 
-# Future Improvements
-
-* Blog Comments
-* Blog Likes
-* Blog Search
-* Blog Categories
-* Rich Text Editor
-* User Dashboard
-* Admin Panel
-* Image Upload with Cloudinary
-
 
 
