@@ -295,7 +295,6 @@ Redirect Home Page
 * My Blogs Page
 * Edit Blog Page
 
----
 
 
 
