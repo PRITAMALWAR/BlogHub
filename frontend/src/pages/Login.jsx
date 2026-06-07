@@ -50,9 +50,9 @@ const Login = () => {
     }
   };
 
-  const handleGoogleLogin = () => {
+   const handleGoogleLogin= () => {
     window.location.href =
-      "http://localhost:8909/auth/google";
+      "https://bloghub-0diu.onrender.com/auth/google";
   };
 
   return (
