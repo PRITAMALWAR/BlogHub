@@ -18,13 +18,8 @@ const router = express.Router();
 |--------------------------------------------------------------------------
 */
 
-// Register
 router.post("/register", register);
-
-// Login
 router.post("/login", login);
-
-// Profile
 router.get("/profile", protect, getProfile);
 
 /*
@@ -45,8 +40,11 @@ router.get(
 router.get(
   "/google/callback",
   passport.authenticate("google", {
-    failureRedirect: `${process.env.CLIENT_URL}/login`,
     session: false,
+    failureRedirect:
+      process.env.CLIENT_URL
+        ? `${process.env.CLIENT_URL}/login`
+        : "http://localhost:5173/login",
   }),
   async (req, res) => {
     try {
@@ -63,22 +61,35 @@ router.get(
         picture: req.user.picture,
       };
 
+      console.log(
+        "CLIENT_URL =>",
+        process.env.CLIENT_URL
+      );
+
       res.redirect(
-        `${process.env.CLIENT_URL}/google-success?token=${token}&user=${encodeURIComponent(
+        `${
+          process.env.CLIENT_URL
+        }/google-success?token=${token}&user=${encodeURIComponent(
           JSON.stringify(user)
         )}`
       );
     } catch (error) {
-      console.error("Google Callback Error:", error);
+      console.error(
+        "Google Callback Error:",
+        error
+      );
 
       res.redirect(
-        `${process.env.CLIENT_URL}/login`
+        `${
+          process.env.CLIENT_URL ||
+          "http://localhost:5173"
+        }/login`
       );
     }
   }
 );
 
-// Optional
+// Optional Route
 router.get("/login-failed", (req, res) => {
   res.status(401).json({
     success: false,
