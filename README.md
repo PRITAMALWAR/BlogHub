@@ -308,10 +308,5 @@ Redirect Home Page
 * Admin Panel
 * Image Upload with Cloudinary
 
----
 
-# Author
 
-Pritam Kumar
-
-Built with ❤️ using MERN Stack.
