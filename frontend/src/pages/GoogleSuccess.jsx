@@ -1,42 +1,3 @@
-// import { useEffect } from "react";
-// import { useNavigate, useSearchParams } from "react-router-dom";
-// import { useAuth } from "../context/AuthContext";
-
-// const GoogleSuccess = () => {
-//   const [params] = useSearchParams();
-//   const navigate = useNavigate();
-
-//   const { login } = useAuth();
-
-//   useEffect(() => {
-//     const token = params.get("token");
-//     const user = params.get("user");
-
-//     if (token && user) {
-//       login(
-//         JSON.parse(decodeURIComponent(user)),
-//         token
-//       );
-
-//       navigate("/");
-//     } else {
-//       navigate("/login");
-//     }
-//   }, []);
-
-//   return <div>Logging in...</div>;
-// };
-
-// export default GoogleSuccess;
-
-
-
-
-
-
-
-
-
 
 
 import { useEffect } from "react";
@@ -47,13 +8,26 @@ const GoogleSuccess = () => {
   const [searchParams] = useSearchParams();
 
   useEffect(() => {
-    const token = searchParams.get("token");
-    const user = searchParams.get("user");
+    try {
+      const token = searchParams.get("token");
+      const user = searchParams.get("user");
 
-    if (token && user) {
-      const parsedUser = JSON.parse(
-        decodeURIComponent(user)
-      );
+      if (!token || !user) {
+        navigate("/login", { replace: true });
+        return;
+      }
+
+      const decodedUser = decodeURIComponent(user);
+
+      if (
+        decodedUser === "undefined" ||
+        decodedUser === "null"
+      ) {
+        navigate("/login", { replace: true });
+        return;
+      }
+
+      const parsedUser = JSON.parse(decodedUser);
 
       localStorage.setItem("token", token);
       localStorage.setItem(
@@ -62,10 +36,15 @@ const GoogleSuccess = () => {
       );
 
       navigate("/", { replace: true });
-    } else {
+    } catch (error) {
+      console.error("Google Login Error:", error);
+
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+
       navigate("/login", { replace: true });
     }
-  }, []);
+  }, [navigate, searchParams]);
 
   return (
     <div className="min-h-screen flex items-center justify-center">
@@ -77,5 +56,6 @@ const GoogleSuccess = () => {
 };
 
 export default GoogleSuccess;
+
 
 

@@ -8,18 +8,29 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    const storedToken = localStorage.getItem("token");
+    try {
+      const storedUser = localStorage.getItem("user");
+      const storedToken = localStorage.getItem("token");
 
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
+      if (
+        storedUser &&
+        storedUser !== "undefined" &&
+        storedUser !== "null"
+      ) {
+        setUser(JSON.parse(storedUser));
+      }
+
+      if (storedToken) {
+        setToken(storedToken);
+      }
+    } catch (error) {
+      console.error("Auth Parse Error:", error);
+
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
+    } finally {
+      setLoading(false);
     }
-
-    if (storedToken) {
-      setToken(storedToken);
-    }
-
-    setLoading(false);
   }, []);
 
   const login = (userData, jwtToken) => {

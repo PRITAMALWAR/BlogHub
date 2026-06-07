@@ -64,9 +64,9 @@ router.get(
       })
     );
 
-    res.redirect(
-      `http://localhost:5173/google-success?token=${token}&user=${user}`
-    );
+   res.redirect(
+  `${CLIENT_URL}/google-success?token=${token}&user=${encodeURIComponent(JSON.stringify(user))}`
+);
   }
 );
 // Optional

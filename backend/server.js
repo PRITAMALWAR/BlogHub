@@ -15,9 +15,18 @@ const app = express();
 connectDB();
 
 /* CORS FIRST */
+// app.use(
+//   cors({
+//     origin: "http://localhost:5173",
+//     credentials: true,
+//   })
+// );
+
+
+
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "https://bloghub-1-w50n.onrender.com",
     credentials: true,
   })
 );
